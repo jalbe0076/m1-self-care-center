@@ -14,7 +14,7 @@ A website was built to provide users with motivational messages to help with one
 
 ### Preview of App:
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
-![SelfCare SR ](https://user-images.githubusercontent.com/123283073/230784493-d7f52d3f-b318-4332-b029-2b2a35b70081.gif)
+![SelfCare SR ](https://user-images.githubusercontent.com/123283073/230811971-68e421de-3cd4-4726-9ae0-00332ce76d87.gif)
 
 ### Context:
 [//]: <> (Give some context for the project here. How long did you have to work on it? How far into the Turing program are you?)
