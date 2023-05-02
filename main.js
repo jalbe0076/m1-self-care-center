@@ -1,22 +1,21 @@
-var affirmationRadio = document.querySelector('.affirmation-message');
-var mantraRadio = document.querySelector('.mantra-message');
-var createMessageButton = document.querySelector('.create-message');
-var favouriteMessageButton = document.querySelector('.save-message');
-var viewFavouriteButton = document.querySelector('.view-favourite');
-var viewHomeButton = document.querySelector('.home');
-var mantraSelectBox = document.querySelector('.mantra-select');
-var messageContainer = document.querySelector('.receive-messages');
-var subTitle = document.querySelector('.sub-title');
-var favouriteBox = document.querySelector('.favourite-box');
-var messageHtmlParagraph = document.querySelector('.message');
-var imgBuddha = document.querySelector('.img-buddha');
-var displayMessage = document.querySelector('.display-message-container')
-var createMessageBox = document.querySelector('.display-message');
+const affirmationRadio = document.querySelector('.affirmation-message');
+const mantraRadio = document.querySelector('.mantra-message');
+const createMessageButton = document.querySelector('.create-message');
+const favouriteMessageButton = document.querySelector('.save-message');
+const viewFavouriteButton = document.querySelector('.view-favourite');
+const viewHomeButton = document.querySelector('.home');
+const mantraSelectBox = document.querySelector('.mantra-select');
+const messageContainer = document.querySelector('.receive-messages');
+const subTitle = document.querySelector('.sub-title');
+const favouriteBox = document.querySelector('.favourite-box');
+const messageHtmlParagraph = document.querySelector('.message');
+const imgBuddha = document.querySelector('.img-buddha');
+const displayMessage = document.querySelector('.display-message-container')
+const createMessageBox = document.querySelector('.display-message');
 
-var currentMessage;
-var localMessage;
+let currentMessage;
 
-if (Object.keys(localStorage).length) {
+if (localStorage.length) {
     viewFavouriteButton.classList.remove('hidden');
 }
 
@@ -26,7 +25,7 @@ createMessageButton.addEventListener('click', selectMessage);
 
 favouriteMessageButton.addEventListener('click', function() {
     favouriteMessage();
-    if (Object.keys(localStorage).length) {
+    if (localStorage.length) {
         viewFavouriteButton.classList.remove('hidden');
     }
 });
@@ -58,9 +57,9 @@ viewHomeButton.addEventListener('click', function() {
     toggleHiddenButton(displayMessage); 
     swapSubTitle();
 
-    if (Object.keys(localStorage).length && viewHomeButton.classList.contains('hidden')) {
+    if (localStorage.length && viewHomeButton.classList.contains('hidden')) {
         viewFavouriteButton.classList.remove('hidden');
-    } else if (!Object.keys(localStorage).length) {
+    } else if (!localStorage.length) {
         viewFavouriteButton.classList.add('hidden');
     }
 });
@@ -70,7 +69,6 @@ favouriteBox.addEventListener('click', deleteFavourite);
 // FUNCTIONS
 
 function selectMessage() {
-    createMessageBox = document.querySelector('.display-message');
 
     if (affirmationRadio.checked) {
         if (!imgBuddha.classList.contains('hidden')) {
@@ -109,32 +107,20 @@ function toggleHiddenButton(button) {
 }
 
 function favouriteMessage() {
-    var valueCheck = [];
-    
-    if (!Object.keys(localStorage).length) {
-        valueCheck.push(currentMessage.message);        
+    if (!Object.values(localStorage).includes(currentMessage.message)) {
         localStorage.setItem(currentMessage.id, currentMessage.message);
-    } else {
-        for (var i = 0; i < Object.keys(localStorage).length; i++) {
-            var item = localStorage.getItem(localStorage.key(i));
-            valueCheck.push(item);
-        }
-        if (!valueCheck.includes(currentMessage.message)) {
-            localStorage.setItem(currentMessage.id, currentMessage.message);
-        }
     }
 }
 
 function viewFavouriteMessages() {
     favouriteBox.innerHTML = '';
-
-    for (var i = 0; i < Object.keys(localStorage).length; i++) {
+    Object.keys(localStorage).forEach(id => {
         favouriteBox.innerHTML += `
-            <section class="message-container" id="${localStorage.key(i)}">
-                <p>${localStorage.getItem(localStorage.key(i))}</p>
+            <section class="message-container" id="${id}">
+                <p>${localStorage.getItem(id)}</p>
                 <button class="delete-message">Delete</button>
             </section>`;
-    }
+    });
 }
 
 function swapSubTitle() {
@@ -146,15 +132,15 @@ function swapSubTitle() {
 }
 
 function deleteFavourite(event) {
-    for (var i = 0; i < Object.keys(localStorage).length; i++) {
-        if (localStorage.key(i) === event.target.parentNode.id) {
-            localStorage.removeItem(localStorage.key(i));
+        Object.keys(localStorage).forEach(id => {
+        if (id === event.target.parentNode.id) {
+            localStorage.removeItem(id);
         }
-    }
+    });
 
     viewFavouriteMessages();
 
-    if (!Object.keys(localStorage).length) {
+    if (!localStorage.length) {
         subTitle.innerText = "All messages deleted";
     }
 }
